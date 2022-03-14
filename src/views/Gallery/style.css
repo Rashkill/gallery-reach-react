@@ -1,0 +1,109 @@
+.background {
+  height: 100vh;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  margin: 20px;
+}
+
+.title {
+  position: relative;
+  width: 100%;
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+.title::before {
+  content: "";
+  position: absolute;
+  background-image: url("assets/background3.gif");
+  background-position: top;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.7;
+  border-radius: 60px;
+  margin: 10px;
+  box-shadow: black 0px 4px 4px 1px;
+}
+
+h1,
+h2 {
+  z-index: 1;
+  text-shadow: black 2px 2px 1px, black 0px 0px 4px, yellow 0px 0px 6px,
+    yellow 0px 0px 12px;
+}
+
+h1::after {
+  content: " ";
+}
+
+h2 {
+  opacity: 1;
+}
+
+h2::before {
+  content: " ";
+}
+
+.addButton {
+  cursor: pointer;
+  height: fit-content;
+  border-radius: 0px;
+  background-color: rgb(80, 112, 255);
+  padding: 10px;
+  box-shadow: black 0px 2px 4px 1px;
+  transition-duration: 0.5s;
+  font-size: 2rem;
+  font-weight: bolder;
+  margin: 20px;
+  user-select: none;
+  border-radius: 1px 10px 10px 1px;
+}
+
+.addButton:hover {
+  border-radius: 10px 10px 10px 10px;
+}
+
+.addButton span {
+  cursor: pointer;
+  position: relative;
+  transition-duration: 0.5s;
+}
+
+.addButton span::before {
+  content: "+";
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: 100px;
+  transform: rotate(-90deg);
+  transition-duration: 0.5s;
+  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.addButton:hover span {
+  padding-left: 20px;
+}
+
+.addButton:hover span::before {
+  opacity: 1;
+  right: 90px;
+  transform: rotate(0deg);
+}
+
+.nftList {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.nftCard {
+  width: 30vh;
+  aspect-ratio: 0.75;
+  background-color: white;
+  margin: 5px;
+}
