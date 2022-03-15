@@ -1,0 +1,23 @@
+.input {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.input input {
+  border: 0px;
+  outline: 0px;
+  padding: 8px 10px;
+  margin: 5px;
+  margin-top: 30px;
+  font-size: 0.8rem;
+  border-radius: 20px;
+  min-width: 200px;
+}
+
+.input label {
+  position: absolute;
+  z-index: 1;
+  font-size: 1.1rem;
+}

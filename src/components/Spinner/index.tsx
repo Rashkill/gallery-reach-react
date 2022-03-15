@@ -1,8 +1,8 @@
-import "./style.css";
+import classes from "./style.module.css";
 
 const Spinner = () => {
   return (
-    <div className="lds-ring">
+    <div className={classes.ldsRing}>
       <div />
       <div />
       <div />

@@ -1,7 +1,7 @@
 .background {
   height: 100vh;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: column;
   margin: 20px;
@@ -10,7 +10,7 @@
 .title {
   position: relative;
   width: 100%;
-  height: 20vh;
+  height: 10vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,7 +20,7 @@
   content: "";
   position: absolute;
   background-image: url("assets/background3.gif");
-  background-position: bottom;
+  background-position: top;
   top: 0px;
   right: 0px;
   bottom: 0px;
@@ -39,54 +39,92 @@ h2 {
 }
 
 h1::after {
-  content: " |";
+  content: " ";
 }
 
 h2 {
-  opacity: 0.7;
+  opacity: 1;
 }
 
 h2::before {
-  content: "| ";
+  content: " ";
 }
 
-.button {
+.addButton {
   cursor: pointer;
+  height: fit-content;
   border-radius: 0px;
-  background-color: coral;
+  background-color: rgb(80, 112, 255);
   padding: 10px;
   box-shadow: black 0px 2px 4px 1px;
   transition-duration: 0.5s;
   font-size: 2rem;
   font-weight: bolder;
-  overflow: hidden;
   margin: 20px;
   user-select: none;
+  border-radius: 10px 1px 1px 10px;
+  overflow: hidden;
 }
 
-.button span {
+.addButton:hover {
+  border-radius: 10px 10px 10px 10px;
+}
+
+.addButton span {
   cursor: pointer;
   position: relative;
   transition-duration: 0.5s;
 }
 
-.button span::after {
-  content: " >";
+.addButton span::before {
+  content: "Add NFT";
   position: absolute;
   opacity: 0;
   top: 0;
-  right: -20px;
-  transform: rotate(-90deg);
+  right: -200px;
   transition-duration: 0.5s;
   transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.button:hover span {
-  padding-right: 20px;
+.addButton:hover span {
+  padding-right: 90px;
 }
 
-.button:hover span:after {
+.addButton:hover span::before {
   opacity: 1;
+  right: 90px;
   right: 0;
-  transform: rotate(0deg);
+}
+
+.nftList {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.nftCard {
+  width: 30vh;
+  aspect-ratio: 0.75;
+  background-color: white;
+  margin: 5px;
+  transition: all 0.25s;
+  transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.nftCard:hover {
+  transform: scale(1.1);
+  transition-duration: 0.5s;
+}
+
+.nftCard img {
+  object-fit: contain;
+  width: 100%;
+  aspect-ratio: 1;
+  background-color: rgb(17, 17, 17);
+}
+
+.nftCard label {
+  color: black;
 }

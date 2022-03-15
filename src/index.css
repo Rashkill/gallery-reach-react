@@ -49,13 +49,3 @@ button:disabled {
   background-color: gray;
   box-shadow: lightgray 0px 4px 1px;
 }
-
-input {
-  border: 0px;
-  outline: 0px;
-  padding: 8px 10px;
-  margin: 5px;
-  font-size: 0.8rem;
-  border-radius: 20px;
-  min-width: 200px;
-}
