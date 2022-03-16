@@ -28,11 +28,11 @@ export const main = Reach.App(() => {
     const { name, symbol, url, metadata, supply } = declassify(
       interact.getParams()
     );
-    assume(supply > 100000);
+    assume(supply > 10);
   });
   //
   Creator.publish(name, symbol, url, metadata, supply);
-  require(supply > 100000);
+  require(supply > 10);
   //
   const md1 = { name, symbol, url, metadata, supply };
   const tok1 = new Token(md1);
