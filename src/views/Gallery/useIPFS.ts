@@ -1,6 +1,7 @@
-import { stringToUint } from "helpers";
+import UserInfoContext from "contexts/UserInfoContext";
 import { create } from "ipfs-http-client";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { NFTJSON } from "types/IPFS";
 
 // const projectId = "26QJH55bCBPzk2Ma3Q6xIsIgMnj";
@@ -10,6 +11,9 @@ import { NFTJSON } from "types/IPFS";
 const client = create({ url: "https://ipfs.infura.io:5001/api/v0" });
 
 const useIPFS = () => {
+  const { actualAddress } = useContext(UserInfoContext);
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
@@ -36,7 +40,7 @@ const useIPFS = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    if (!name || !description) return;
+    if (!name || !description || !actualAddress) return;
     try {
       const fileCreated = await client.add(file as any);
       const fileURL = `https://ipfs.infura.io/ipfs/${fileCreated.path}`;
@@ -46,8 +50,8 @@ const useIPFS = () => {
         description,
         fileURL,
         fileType: fileData?.type || "unknown",
-        ownerAddress: "none",
-        creatorAddress: "none",
+        ownerAddress: actualAddress || "none",
+        creatorAddress: actualAddress || "none",
       };
 
       const jsonCreated = await client.add(JSON.stringify(finalFile) as any);
@@ -57,6 +61,8 @@ const useIPFS = () => {
         if (prev.includes(jsonURL)) return prev;
         const final = [...prev, jsonURL];
         window.localStorage.setItem("nfts", JSON.stringify(final));
+        console.log(finalFile);
+        navigate("/gallery");
         return final;
       });
     } catch (error: any) {
