@@ -10,6 +10,9 @@ import { NFTJSON } from "types/IPFS";
 const client = create({ url: "https://ipfs.infura.io:5001/api/v0" });
 
 const useIPFS = () => {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+
   const [file, setFile] = useState<string | ArrayBuffer | null>();
   const [fileData, setFileData] = useState<File>();
   const [urlArr, setUrlArr] = useState<Array<string>>(
@@ -30,16 +33,17 @@ const useIPFS = () => {
   };
 
   const handleSubmit = async (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
+    if (!name || !description) return;
     try {
       const fileCreated = await client.add(file as any);
       const fileURL = `https://ipfs.infura.io/ipfs/${fileCreated.path}`;
 
       const finalFile: NFTJSON = {
-        name: "Test name",
-        description: "Test description",
+        name,
+        description,
         fileURL,
         fileType: fileData?.type || "unknown",
         ownerAddress: "none",
@@ -60,7 +64,15 @@ const useIPFS = () => {
     }
   };
 
-  return { urlArr, retrieveFile, handleSubmit };
+  return {
+    urlArr,
+    name,
+    description,
+    retrieveFile,
+    handleSubmit,
+    setName,
+    setDescription,
+  };
 };
 
 export default useIPFS;

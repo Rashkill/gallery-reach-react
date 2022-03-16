@@ -7,9 +7,19 @@ const NewNFT = () => {
   return (
     <div className={classes.container}>
       <input type="file" name="data" onChange={ipfs.retrieveFile} />
-      <Input type="text" name="name" id="nftName" />
-      <Input type="text" name="description" id="nftDesc" />
-      <Input type="number" name="price" id="nftPrice" />
+      <Input
+        type="text"
+        name="name"
+        id="nftName"
+        onChange={(e) => ipfs.setName(e.target.value)}
+      />
+      <Input
+        type="text"
+        name="description"
+        id="nftDesc"
+        onChange={(e) => ipfs.setDescription(e.target.value)}
+      />
+      <button onClick={(e) => ipfs.handleSubmit(e)}>Add NFT</button>
     </div>
   );
 };

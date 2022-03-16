@@ -13,7 +13,7 @@ const Input: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = ({
       <label
         style={{
           left: 15,
-          top: !focused && !value ? 21 : 6,
+          top: !focused && !value ? 30 : 6,
           color: !focused && !value ? "lightgray" : "black",
           fontWeight: "bold",
           fontSize: !focused && !value ? "1.5rem" : "1.2rem",
