@@ -11,7 +11,7 @@ import { NFTJSON } from "types/IPFS";
 const client = create({ url: "https://ipfs.infura.io:5001/api/v0" });
 
 const useIPFS = () => {
-  const { actualAddress } = useContext(UserInfoContext);
+  const { actualAddress, deployContract } = useContext(UserInfoContext);
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
@@ -50,7 +50,8 @@ const useIPFS = () => {
         description,
         fileURL,
         fileType: fileData?.type || "unknown",
-        ownerAddress: actualAddress || "none",
+        contractInfo:
+          (await deployContract(name, description, fileURL)) || "none",
         creatorAddress: actualAddress || "none",
       };
 

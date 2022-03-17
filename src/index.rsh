@@ -1,14 +1,14 @@
 //smart contract code and backend
 "reach 0.1";
 
+const shared = {
+  showToken: Fun([Token], Null),
+  setAddress: Fun([], String),
+  getCreator: Fun([], String),
+};
+
 export const main = Reach.App(() => {
-  const shared = {
-    showToken: Fun([Token], Null),
-    didTransfer: Fun([Bool, UInt], Null),
-    showB: Fun([Token, Bytes(15)], Null),
-  };
-  //Creator is the participant to deploy the contract
-  const Creator = Participant("Creator", {
+  const ContractCreator = Participant("Creator", {
     getParams: Fun(
       [],
       Object({
@@ -22,38 +22,43 @@ export const main = Reach.App(() => {
     ),
     ...shared,
   });
+
+  const Buyer = Participant("Buyer", {
+    ...shared,
+  });
+
   init();
-  //
-  Creator.only(() => {
+
+  ContractCreator.only(() => {
     const { name, symbol, url, metadata, supply } = declassify(
       interact.getParams()
     );
     assume(supply > 10);
   });
-  //
-  Creator.publish(name, symbol, url, metadata, supply);
+
+  ContractCreator.publish(name, symbol, url, metadata, supply);
   require(supply > 10);
-  //
+
+  Buyer.only(() => {
+    const who = declassify(interact.setAddress());
+    const creator = declassify(interact.setAddress());
+  });
+  Buyer.publish(who, creator);
+  commit();
+
   const md1 = { name, symbol, url, metadata, supply };
   const tok1 = new Token(md1);
-  Creator.interact.showToken(tok1);
+  ContractCreator.interact.showToken(tok1);
   commit();
-  //
-  const doTransfer1 = (who, tokX) => {
-    transfer(supply / 4, tokX).to(who);
-    who.interact.didTransfer(true, supply / 4);
+
+  const doTransfer1 = (tokX) => {
+    transfer(tokX).to(who);
+    Buyer.pay(supply / 4).to(ContractCreator);
+    Buyer.pay(supply / 8).to(creator);
   };
-  //
-  Creator.publish();
-  doTransfer1(Creator, tok1);
-  Creator.interact.showB(tok1, "after receiving");
-  commit();
-  //
-  Creator.pay([[supply / 4, tok1]]);
-  Creator.interact.showB(tok1, "after refunding");
-  commit();
-  //
-  Creator.publish();
+
+  ContractCreator.publish();
+  doTransfer1(tok1);
   tok1.burn(balance(tok1));
   tok1.destroy();
   commit();

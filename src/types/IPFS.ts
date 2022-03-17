@@ -3,6 +3,6 @@ export type NFTJSON = {
   description: string;
   fileURL: string;
   fileType: string;
-  ownerAddress: string;
+  contractInfo: string;
   creatorAddress: string;
 };
