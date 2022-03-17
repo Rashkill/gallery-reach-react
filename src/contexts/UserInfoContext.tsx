@@ -75,6 +75,13 @@ export const UserInfoProvider: React.FC = ({ children }) => {
         //this shows Creator's balance
         showBalance(account, tok);
       },
+      didTransfer: (wasDone: boolean, amt: BigNumber) => {
+        console.log(
+          `The transfer was completed. ${fmt(
+            amt
+          )} tokens were transferred to the Creator`
+        );
+      },
       getParams: () => {
         return {
           name,
@@ -82,8 +89,19 @@ export const UserInfoProvider: React.FC = ({ children }) => {
           url,
           metadata: description,
           supply: reach.parseCurrency(10),
+          who: "0x9dbB784982b76D4fDA6d6e2a443818a458479d3e",
           decimals: 18,
         };
+      },
+      showB: async (tok: Token, status: string) => {
+        // this checks the token balance for Creator
+        const bal = await reach.balanceOf(account, tok);
+        //this shows you what bal looks like if not formatted
+        console.log(bal);
+        //this shows you status when balance was checked
+        console.log(`Status: `, status);
+        //this shows you the balance
+        console.log(`${tok} balance: ${fmt(bal)}`);
       },
     });
     const _ctcInfoStr = JSON.stringify(await _ctc?.getInfo(), null, 2);
