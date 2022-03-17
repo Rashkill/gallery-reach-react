@@ -3,8 +3,8 @@
 
 const shared = {
   showToken: Fun([Token], Null),
-  setAddress: Fun([], String),
-  getCreator: Fun([], String),
+  setAddress: Fun([], Address),
+  getCreator: Fun([], Address),
 };
 
 export const main = Reach.App(() => {
@@ -36,9 +36,6 @@ export const main = Reach.App(() => {
     assume(supply > 10);
   });
 
-  ContractCreator.publish(name, symbol, url, metadata, supply);
-  require(supply > 10);
-
   Buyer.only(() => {
     const who = declassify(interact.setAddress());
     const creator = declassify(interact.setAddress());
@@ -46,18 +43,21 @@ export const main = Reach.App(() => {
   Buyer.publish(who, creator);
   commit();
 
+  ContractCreator.publish(name, symbol, url, metadata, supply);
+  require(supply > 10);
+
   const md1 = { name, symbol, url, metadata, supply };
   const tok1 = new Token(md1);
   ContractCreator.interact.showToken(tok1);
   commit();
 
   const doTransfer1 = (tokX) => {
-    transfer(tokX).to(who);
-    Buyer.pay(supply / 4).to(ContractCreator);
-    Buyer.pay(supply / 8).to(creator);
+    transfer(0, tokX).to(who);
   };
 
   ContractCreator.publish();
+  require(supply > 10);
+
   doTransfer1(tok1);
   tok1.burn(balance(tok1));
   tok1.destroy();
